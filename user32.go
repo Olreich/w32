@@ -949,14 +949,14 @@ func SendInput(inputs []INPUT) uint32 {
 }
 
 func FindWindow(lpClassName string, lpWindowName string) HWND {
+	var strHelper uintptr
 	if lpClassName == "" {
-		ret, _, _ := procFindWindow.Call(
-			uintptr(nil),
-			uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
+		strHelper = uintptr(nil)
 	} else {
-		ret, _, _ := procFindWindow.Call(
-			uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpClassName))),
-			uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
+		strHelper = uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpClassName)))
 	}
+	ret, _, _ := procFindWindow.Call(
+		strHelper,
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
 	return HWND(ret)
 }
