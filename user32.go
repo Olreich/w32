@@ -7,6 +7,7 @@ package w32
 import (
 	// #include <WTypes.h>
 	"C"
+	"errors"
 	"fmt"
 	"syscall"
 	"unsafe"
@@ -909,6 +910,10 @@ func EnumDisplaySettingsEx(szDeviceName *uint16, iModeNum uint32, devMode *DEVMO
 	return ret != 0
 }
 
+// ChangeDisplaySettingsEx changes the settings of the specified display device to the specified
+// graphics mode.
+//
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd183413(v=vs.85).aspx
 func ChangeDisplaySettingsEx(szDeviceName *uint16, devMode *DEVMODE, hwnd HWND, dwFlags uint32, lParam uintptr) int32 {
 	ret, _, _ := procChangeDisplaySettingsEx.Call(
 		uintptr(unsafe.Pointer(szDeviceName)),
@@ -920,7 +925,12 @@ func ChangeDisplaySettingsEx(szDeviceName *uint16, devMode *DEVMODE, hwnd HWND, 
 	return int32(ret)
 }
 
-func SendInput(inputs []INPUT) uint32 {
+// SendInput synthesizes keystrokes, mouse motions, and button clicks. Inputs are sent serially based on
+// position in slice. Returns number of successful inputs and the last error number in the set (if
+// any).
+//
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646310(v=vs.85).aspx
+func SendInput(inputs []INPUT) (successCount uint32, errNo syscall.Errno) {
 	var validInputs []C.INPUT
 
 	for _, oneInput := range inputs {
@@ -945,10 +955,19 @@ func SendInput(inputs []INPUT) uint32 {
 		uintptr(unsafe.Pointer(&validInputs[0])),
 		uintptr(unsafe.Sizeof(C.INPUT{})),
 	)
-	return uint32(ret)
+	if ret < len(inputs) {
+		errNo = uintptr(GetLastError)
+	}
+	successCount = ret
+	return
 }
 
-func FindWindow(lpClassName string, lpWindowName string) HWND {
+// FindWindow retrieves a handle to the top-level window whose class name and window name match the
+// specified strings. This function is not case-senstive and does not search child windows. If a
+// window cannot be found, an error is returned.
+//
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633499(v=vs.85).aspx
+func FindWindow(lpClassName string, lpWindowName string) (HWND, error) {
 	var strHelper uintptr
 	if lpClassName != "" {
 		strHelper = uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpClassName)))
@@ -956,5 +975,8 @@ func FindWindow(lpClassName string, lpWindowName string) HWND {
 	ret, _, _ := procFindWindow.Call(
 		strHelper,
 		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
-	return HWND(ret)
+	if ret == 0 {
+		return nil, errors.New("Unable to Find Window")
+	}
+	return HWND(ret), nil
 }
