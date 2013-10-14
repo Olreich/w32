@@ -279,7 +279,7 @@ func FindWindow(lpClassName string, lpWindowName string) (HWND, error) {
 		strHelper,
 		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
 	if ret == 0 {
-		return nil, errors.New("Unable to Find Window")
+		return HWND(nil), errors.New("Unable to Find Window")
 	}
 	return HWND(ret), nil
 }
@@ -1378,7 +1378,7 @@ func MapVirtualKeyEx(uCode, uMapType uint, dwhkl HKL) uint {
 // in the set (if any).
 //
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms646310(v=vs.85).aspx
-func SendInput(inputs []INPUT) (successCount uint32, errNo syscall.Errno) {
+func SendInput(inputs []INPUT) uint32 {
 	var validInputs []C.INPUT
 
 	for _, oneInput := range inputs {
@@ -1403,11 +1403,7 @@ func SendInput(inputs []INPUT) (successCount uint32, errNo syscall.Errno) {
 		uintptr(unsafe.Pointer(&validInputs[0])),
 		uintptr(unsafe.Sizeof(C.INPUT{})),
 	)
-	if ret < len(inputs) {
-		errNo = uintptr(GetLastError)
-	}
-	successCount = ret
-	return
+	return uint32(ret)
 }
 
 // SetFocus sets the keyboard focus to the specified window. The window must be attached to the
