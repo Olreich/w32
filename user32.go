@@ -116,7 +116,7 @@ var (
 )
 
 // Windows
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632595(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632595
 // TODO: AllowSetForegroundWindow
 // TODO: AnimateWindow
 // TODO: AnyPopup
@@ -200,7 +200,7 @@ var (
 // client-rectangle size. The window rectangle can then be passed to the CreateWindow function to
 // create a window whose client area is the desired size.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632665(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632665
 func AdjustWindowRect(rect *RECT, style uint, menu bool) bool {
 	ret, _, _ := procAdjustWindowRect.Call(
 		uintptr(unsafe.Pointer(rect)),
@@ -214,7 +214,7 @@ func AdjustWindowRect(rect *RECT, style uint, menu bool) bool {
 // size of the client rectangle. The window rectangle can then be passed to the CreateWindowEx
 // function to create a window whose client area is the desired size.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632667(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632667
 func AdjustWindowRectEx(rect *RECT, style uint, menu bool, exStyle uint) bool {
 	ret, _, _ := procAdjustWindowRectEx.Call(
 		uintptr(unsafe.Pointer(rect)),
@@ -230,7 +230,7 @@ func AdjustWindowRectEx(rect *RECT, style uint, menu bool, exStyle uint) bool {
 // creating a window and for full descriptions of the other parameters of CreateWindowEx,
 // see CreateWindow.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632680(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632680
 func CreateWindowEx(exStyle uint, className, windowName *uint16,
 	style uint, x, y, width, height int, parent HWND, menu HMENU,
 	instance HINSTANCE, param unsafe.Pointer) HWND {
@@ -257,7 +257,7 @@ func CreateWindowEx(exStyle uint, className, windowName *uint16,
 // ownership, and breaks the clipboard viewer chain (if the window is at the top of the viewer
 // chain).
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632682(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632682
 func DestroyWindow(hwnd HWND) bool {
 	ret, _, _ := procDestroyWindow.Call(
 		uintptr(hwnd))
@@ -269,7 +269,7 @@ func DestroyWindow(hwnd HWND) bool {
 // specified strings. This function is not case-senstive and does not search child windows. If a
 // window cannot be found, an error is returned.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633499(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633499
 func FindWindow(lpClassName string, lpWindowName string) (HWND, error) {
 	var strHelper uintptr
 	if lpClassName != "" {
@@ -289,7 +289,7 @@ func FindWindow(lpClassName string, lpWindowName string) (HWND, error) {
 // relative to the upper-left corner of a window's client area, the coordinates of the upper-left
 // corner are (0,0).
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633503(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633503
 func GetClientRect(hwnd HWND) *RECT {
 	var rect RECT
 	ret, _, _ := procGetClientRect.Call(
@@ -307,7 +307,7 @@ func GetClientRect(hwnd HWND) *RECT {
 // dimensions are given in screen coordinates that are relative to the upper-left corner of the
 // screen.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633519(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633519
 func GetWindowRect(hwnd HWND) *RECT {
 	var rect RECT
 	procGetWindowRect.Call(
@@ -321,7 +321,7 @@ func GetWindowRect(hwnd HWND) *RECT {
 // If the specified window is a control, the text of the control is copied. However, GetWindowText
 // cannot retrieve the text of a control in another application.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633520(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633520
 func GetWindowText(hwnd HWND) string {
 	textLen := GetWindowTextLength(hwnd) + 1
 
@@ -339,7 +339,7 @@ func GetWindowText(hwnd HWND) string {
 // length of the text within the control. However, GetWindowTextLength cannot retrieve the length of
 // the text of an edit control in another application.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633521(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633521
 func GetWindowTextLength(hwnd HWND) int {
 	ret, _, _ := procGetWindowTextLength.Call(
 		uintptr(hwnd))
@@ -350,7 +350,7 @@ func GetWindowTextLength(hwnd HWND) int {
 // GetWindowThreadProcessId retrieves the identifier of the thread that created the specified window
 // and, optionally, the identifier of the process that created the window.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633522(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633522
 func GetWindowThreadProcessId(hwnd HWND) (HANDLE, int) {
 	var processId int
 	ret, _, _ := procGetWindowThreadProcessId.Call(
@@ -361,7 +361,7 @@ func GetWindowThreadProcessId(hwnd HWND) (HANDLE, int) {
 
 // IsWindow determines whether the specified window handle identifies an existing window.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633528(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633528
 func IsWindow(hwnd HWND) bool {
 	ret, _, _ := procIsWindow.Call(
 		uintptr(hwnd))
@@ -370,7 +370,7 @@ func IsWindow(hwnd HWND) bool {
 
 // IsWindowVisible determines the visibility state of the specified window.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633530(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633530
 func IsWindowVisible(hwnd HWND) bool {
 	ret, _, _ := procIsWindowVisible.Call(
 		uintptr(hwnd))
@@ -381,7 +381,7 @@ func IsWindowVisible(hwnd HWND) bool {
 // the position and dimensions are relative to the upper-left corner of the screen. For a child
 // window, they are relative to the upper-left corner of the parent window's client area.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633534(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633534
 func MoveWindow(hwnd HWND, x, y, width, height int, repaint bool) bool {
 	ret, _, _ := procMoveWindow.Call(
 		uintptr(hwnd),
@@ -397,7 +397,7 @@ func MoveWindow(hwnd HWND, x, y, width, height int, repaint bool) bool {
 // These windows are ordered according to their appearance on the screen. The topmost window
 // receives the highest rank and is the first window in the Z order.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633545(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633545
 func SetWindowPos(hwnd, hWndInsertAfter HWND, x, y, cx, cy int, uFlags uint) bool {
 	ret, _, _ := procSetWindowPos.Call(
 		uintptr(hwnd),
@@ -415,7 +415,7 @@ func SetWindowPos(hwnd, hWndInsertAfter HWND, x, y, cx, cy int, uFlags uint) boo
 // specified window is a control, the text of the control is changed. However, SetWindowText cannot
 // change the text of a control in another application.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633546(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633546
 func SetWindowText(hwnd HWND, text string) {
 	procSetWindowText.Call(
 		uintptr(hwnd),
@@ -424,7 +424,7 @@ func SetWindowText(hwnd HWND, text string) {
 
 // ShowWindow sets the specified window's show state.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633548(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633548
 func ShowWindow(hwnd HWND, cmdshow int) bool {
 	ret, _, _ := procShowWindow.Call(
 		uintptr(hwnd),
@@ -435,7 +435,7 @@ func ShowWindow(hwnd HWND, cmdshow int) bool {
 }
 
 // Window Classes
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632596(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632596
 // TODO: GetClassInfo
 // TODO: GetClassInfoEx
 // TODO: GetClassLong
@@ -455,7 +455,7 @@ func ShowWindow(hwnd HWND, cmdshow int) bool {
 // 64-bit Windows.) To write code that is compatible with both 32-bit and 64-bit versions of
 // Windows, use GetWindowLongPtr.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633584(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633584
 func GetWindowLong(hwnd HWND, index int) int32 {
 	ret, _, _ := procGetWindowLong.Call(
 		uintptr(hwnd),
@@ -467,7 +467,7 @@ func GetWindowLong(hwnd HWND, index int) int32 {
 // Retrieves information about the specified window. The function also retrieves the value at a
 // specified offset into the extra window memory.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633585(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633585
 func GetWindowLongPtr(hwnd HWND, index int) uintptr {
 	ret, _, _ := procGetWindowLongPtr.Call(
 		uintptr(hwnd),
@@ -479,7 +479,7 @@ func GetWindowLongPtr(hwnd HWND, index int) uintptr {
 // RegisterClassEx registers a window class for subsequent use in calls to the CreateWindow or
 // CreateWindowEx function.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633587(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633587
 func RegisterClassEx(wndClassEx *WNDCLASSEX) ATOM {
 	ret, _, _ := procRegisterClassEx.Call(uintptr(unsafe.Pointer(wndClassEx)))
 	return ATOM(ret)
@@ -504,7 +504,7 @@ func SetWindowLong(hwnd HWND, index int, value uint32) uint32 {
 // SetWindowLongPtr changes an attribute of the specified window. The function also sets a value at
 // the specified offset in the extra window memory.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644898(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644898
 func SetWindowLongPtr(hwnd HWND, index int, value uintptr) uintptr {
 	ret, _, _ := procSetWindowLongPtr.Call(
 		uintptr(hwnd),
@@ -515,11 +515,11 @@ func SetWindowLongPtr(hwnd HWND, index int, value uintptr) uintptr {
 }
 
 // Window Procedures
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632593(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632593
 
 // CallWindowProc passes message information to the specified window procedure.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633571(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633571
 func CallWindowProc(preWndProc uintptr, hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 	ret, _, _ := procCallWindowProc.Call(
 		preWndProc,
@@ -535,7 +535,7 @@ func CallWindowProc(preWndProc uintptr, hwnd HWND, msg uint32, wParam, lParam ui
 // messages that an application does not process. This function ensures that every message is
 // processed. DefWindowProc is called with the same parameters received by the window procedure.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572
 func DefWindowProc(hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 	ret, _, _ := procDefWindowProc.Call(
 		uintptr(hwnd),
@@ -547,7 +547,7 @@ func DefWindowProc(hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 }
 
 // Messages and Message Queues
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632590(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632590
 // TODO: BroadcastSystemMessage
 // TODO: BroadcastSystemMessageEx
 // TODO: GetInputState
@@ -569,7 +569,7 @@ func DefWindowProc(hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 // DispatchMessage dispatches a message to a window procedure. It is typically used to dispatch a
 // message retrieved by the GetMessage function.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644934(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644934
 func DispatchMessage(msg *MSG) uintptr {
 	ret, _, _ := procDispatchMessage.Call(
 		uintptr(unsafe.Pointer(msg)))
@@ -584,7 +584,7 @@ func DispatchMessage(msg *MSG) uintptr {
 // Unlike GetMessage, the PeekMessage function does not wait for a message to be posted before
 // returning.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644936(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644936
 func GetMessage(msg *MSG, hwnd HWND, msgFilterMin, msgFilterMax uint32) int {
 	ret, _, _ := procGetMessage.Call(
 		uintptr(unsafe.Pointer(msg)),
@@ -598,7 +598,7 @@ func GetMessage(msg *MSG, hwnd HWND, msgFilterMin, msgFilterMax uint32) int {
 // PeekMessage dispatches incoming sent messages, checks the thread message queue for a posted
 // message, and retrieves the message (if any exist).
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644943
 func PeekMessage(lpMsg *MSG, hwnd HWND, wMsgFilterMin, wMsgFilterMax, wRemoveMsg uint32) bool {
 	ret, _, _ := procPeekMessage.Call(
 		uintptr(unsafe.Pointer(lpMsg)),
@@ -613,7 +613,7 @@ func PeekMessage(lpMsg *MSG, hwnd HWND, wMsgFilterMin, wMsgFilterMax, wRemoveMsg
 // PostMessage places (posts) a message in the message queue associated with the thread that created
 // the specified window and returns without waiting for the thread to process the message.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644944(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644944
 func PostMessage(hwnd HWND, msg uint32, wParam, lParam uintptr) bool {
 	ret, _, _ := procPostMessage.Call(
 		uintptr(hwnd),
@@ -627,7 +627,7 @@ func PostMessage(hwnd HWND, msg uint32, wParam, lParam uintptr) bool {
 // PostQuitMessage indicates to the system that a thread has made a request to terminate (quit). It
 // is typically used in response to a WM_DESTROY message.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644945
 func PostQuitMessage(exitCode int) {
 	procPostQuitMessage.Call(
 		uintptr(exitCode))
@@ -637,7 +637,7 @@ func PostQuitMessage(exitCode int) {
 // the window procedure for the specified window and does not return until the window procedure has
 // processed the message.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644950(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644950
 func SendMessage(hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 	ret, _, _ := procSendMessage.Call(
 		uintptr(hwnd),
@@ -652,7 +652,7 @@ func SendMessage(hwnd HWND, msg uint32, wParam, lParam uintptr) uintptr {
 // are posted to the calling thread's message queue, to be read the next time the thread calls the
 // GetMessage or PeekMessage function.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644955(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644955
 func TranslateMessage(msg *MSG) bool {
 	ret, _, _ := procTranslateMessage.Call(
 		uintptr(unsafe.Pointer(msg)))
@@ -665,35 +665,35 @@ func TranslateMessage(msg *MSG) bool {
 // queue. The WaitMessage function suspends the thread and does not return until a new message is
 // placed in the thread's message queue.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644956(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms644956
 func WaitMessage() bool {
 	ret, _, _ := procWaitMessage.Call()
 	return ret != 0
 }
 
 // Timers
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632592(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632592
 
 // Window Properties
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632594(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632594
 
 // Configuration
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ff625301(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ff625301
 
 // Multiple Document Interface
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632591(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632591
 
 // Dialog Boxes
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632588(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms632588
 
 // Carets
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646968(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646968
 
 // Cursors
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646970(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646970
 
 // Icons
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646973(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646973
 // TODO: CopyIcon
 // TODO: CreateIconFromResource
 // TODO: CreateIconFromResourceEx
@@ -711,7 +711,7 @@ func WaitMessage() bool {
 
 // CreateIcon creates an icon that has the specified size, colors, and bit patterns.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648059(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648059
 func CreateIcon(instance HINSTANCE, nWidth, nHeight int, cPlanes, cBitsPerPixel byte, ANDbits, XORbits *byte) HICON {
 	ret, _, _ := procCreateIcon.Call(
 		uintptr(instance),
@@ -727,7 +727,7 @@ func CreateIcon(instance HINSTANCE, nWidth, nHeight int, cPlanes, cBitsPerPixel 
 
 // DestroyIcon destroys an icon and frees any memory the icon occupied.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648063(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648063
 func DestroyIcon(icon HICON) bool {
 	ret, _, _ := procDestroyIcon.Call(
 		uintptr(icon),
@@ -737,7 +737,7 @@ func DestroyIcon(icon HICON) bool {
 
 // DrawIcon draws an icon or cursor into the specified device context.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648064(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648064
 func DrawIcon(hDC HDC, x, y int, hIcon HICON) bool {
 	ret, _, _ := procDrawIcon.Call(
 		uintptr(unsafe.Pointer(hDC)),
@@ -753,7 +753,7 @@ func DrawIcon(hDC HDC, x, y int, hIcon HICON) bool {
 //
 // Note: This function has been superseded by the LoadImage function.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648072(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648072
 func LoadIcon(instance HINSTANCE, iconName *uint16) HICON {
 	ret, _, _ := procLoadIcon.Call(
 		uintptr(instance),
@@ -764,20 +764,20 @@ func LoadIcon(instance HINSTANCE, iconName *uint16) HICON {
 }
 
 // Keyboard Accelerators
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms645526(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms645526
 
 // Menus
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646977(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646977
 
 // Strings - Possibly Useless
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646979(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646979
 
 // Version Information
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646981(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646981
 
 // Data Exchange
 // Clipboard
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648709(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms648709
 
 func LoadCursor(instance HINSTANCE, cursorName *uint16) HCURSOR {
 	ret, _, _ := procLoadCursor.Call(
@@ -1140,7 +1140,7 @@ func SetCursor(cursor HCURSOR) HCURSOR {
 }
 
 // Multiple Display Monitors
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145072(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145072
 // TODO: MonitorEnumProc
 
 // EnumDisplayMonitors enumerates display monitors (including invisible pseudo-monitors associated
@@ -1149,7 +1149,7 @@ func SetCursor(cursor HCURSOR) HCURSOR {
 // application-defined MonitorEnumProc callback function once for each monitor that is enumerated.
 // Note that GetSystemMetrics (SM_CMONITORS) counts only the display monitors.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162610(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162610
 func EnumDisplayMonitors(hdc HDC, clip *RECT, fnEnum, dwData uintptr) bool {
 	ret, _, _ := procEnumDisplayMonitors.Call(
 		uintptr(hdc),
@@ -1162,7 +1162,7 @@ func EnumDisplayMonitors(hdc HDC, clip *RECT, fnEnum, dwData uintptr) bool {
 
 // GetMonitorInfo retrieves information about a display monitor.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd144901(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd144901
 func GetMonitorInfo(hMonitor HMONITOR, lmpi *MONITORINFO) bool {
 	ret, _, _ := procGetMonitorInfo.Call(
 		uintptr(hMonitor),
@@ -1173,7 +1173,7 @@ func GetMonitorInfo(hMonitor HMONITOR, lmpi *MONITORINFO) bool {
 
 // MonitorFromPoint retrieves a handle to the display monitor that contains a specified point.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145062
 func MonitorFromPoint(x, y int, dwFlags uint32) HMONITOR {
 	ret, _, _ := procMonitorFromPoint.Call(
 		uintptr(x),
@@ -1186,7 +1186,7 @@ func MonitorFromPoint(x, y int, dwFlags uint32) HMONITOR {
 // MonitorFromRect retrieves a handle to the display monitor that has the largest area of
 // intersection with a specified rectangle.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145063(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145063
 func MonitorFromRect(rc *RECT, dwFlags uint32) HMONITOR {
 	ret, _, _ := procMonitorFromRect.Call(
 		uintptr(unsafe.Pointer(rc)),
@@ -1198,7 +1198,7 @@ func MonitorFromRect(rc *RECT, dwFlags uint32) HMONITOR {
 // MonitorFromWindow retrieves a handle to the display monitor that has the largest area of
 // intersection with the bounding rectangle of a specified window.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145064(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd145064
 func MonitorFromWindow(hwnd HWND, dwFlags uint32) HMONITOR {
 	ret, _, _ := procMonitorFromWindow.Call(
 		uintptr(hwnd),
@@ -1208,7 +1208,7 @@ func MonitorFromWindow(hwnd HWND, dwFlags uint32) HMONITOR {
 }
 
 // Device Context Functions
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd183554(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd183554
 // TODO: CancelDC
 // TODO: CreateCompatibleDC
 // TODO: CreateDC
@@ -1240,7 +1240,7 @@ func MonitorFromWindow(hwnd HWND, dwFlags uint32) HMONITOR {
 // ChangeDisplaySettingsEx changes the settings of the specified display device to the specified
 // graphics mode.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd183413(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd183413
 func ChangeDisplaySettingsEx(szDeviceName *uint16, devMode *DEVMODE, hwnd HWND, dwFlags uint32, lParam uintptr) int32 {
 	ret, _, _ := procChangeDisplaySettingsEx.Call(
 		uintptr(unsafe.Pointer(szDeviceName)),
@@ -1256,7 +1256,7 @@ func ChangeDisplaySettingsEx(szDeviceName *uint16, devMode *DEVMODE, hwnd HWND, 
 // To retrieve information for all the graphics modes for a display device, make a series of calls
 // to this function.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162612(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162612
 func EnumDisplaySettingsEx(szDeviceName *uint16, iModeNum uint32, devMode *DEVMODE, dwFlags uint32) bool {
 	ret, _, _ := procEnumDisplaySettingsEx.Call(
 		uintptr(unsafe.Pointer(szDeviceName)),
@@ -1272,7 +1272,7 @@ func EnumDisplaySettingsEx(szDeviceName *uint16, iModeNum uint32, devMode *DEVMO
 // draw in the DC. The device context is an opaque data structure, whose values are used internally
 // by GDI.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd144871(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd144871
 func GetDC(hwnd HWND) HDC {
 	ret, _, _ := procGetDC.Call(
 		uintptr(hwnd))
@@ -1284,7 +1284,7 @@ func GetDC(hwnd HWND) HDC {
 // the ReleaseDC function depends on the type of DC. It frees only common and window DCs. It has no
 // effect on class or private DCs.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162920(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/dd162920
 func ReleaseDC(hwnd HWND, hDC HDC) bool {
 	ret, _, _ := procReleaseDC.Call(
 		uintptr(hwnd),
@@ -1294,7 +1294,7 @@ func ReleaseDC(hwnd HWND, hDC HDC) bool {
 }
 
 // Keyboard Input
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms645530(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms645530
 // TODO: ActivateKeyboardLayout
 // TODO: BlockInput
 // TODO: GetActiveWindow
@@ -1324,7 +1324,7 @@ func ReleaseDC(hwnd HWND, hDC HDC) bool {
 // When input is disabled, the window does not receive input such as mouse clicks and key presses.
 // When input is enabled, the window receives all input.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646291(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646291
 func EnableWindow(hwnd HWND, b bool) bool {
 	ret, _, _ := procEnableWindow.Call(
 		uintptr(hwnd),
@@ -1335,7 +1335,7 @@ func EnableWindow(hwnd HWND, b bool) bool {
 // GetAsyncKeyState determines whether a key is up or down at the time the function is called, and
 // whether the key was pressed after a previous call to GetAsyncKeyState.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646293(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646293
 func GetAsyncKeyState(vKey int) uint16 {
 	ret, _, _ := procGetAsyncKeyState.Call(uintptr(vKey))
 	return uint16(ret)
@@ -1343,7 +1343,7 @@ func GetAsyncKeyState(vKey int) uint16 {
 
 // GetKeyboardState copies the status of the 256 virtual keys to lpKeyState buffer.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646299(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646299
 func GetKeyboardState(lpKeyState *[]byte) bool {
 	ret, _, _ := procGetKeyboardState.Call(
 		uintptr(unsafe.Pointer(&(*lpKeyState)[0])))
@@ -1352,7 +1352,7 @@ func GetKeyboardState(lpKeyState *[]byte) bool {
 
 // IsWindowEnabled determines whether the specified window is enabled for mouse and keyboard input.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646303(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646303
 func IsWindowEnabled(hwnd HWND) bool {
 	ret, _, _ := procIsWindowEnabled.Call(
 		uintptr(hwnd))
@@ -1364,7 +1364,7 @@ func IsWindowEnabled(hwnd HWND) bool {
 // translates a scan code into a virtual-key code. The function translates the codes using the input
 // language and an input locale identifier.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646307(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646307
 func MapVirtualKeyEx(uCode, uMapType uint, dwhkl HKL) uint {
 	ret, _, _ := procMapVirtualKey.Call(
 		uintptr(uCode),
@@ -1377,7 +1377,7 @@ func MapVirtualKeyEx(uCode, uMapType uint, dwhkl HKL) uint {
 // starting from beginning of slice. Returns number of successful inputs and the last error number
 // in the set (if any).
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646310(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646310
 func SendInput(inputs []INPUT) uint32 {
 	var validInputs []C.INPUT
 
@@ -1409,7 +1409,7 @@ func SendInput(inputs []INPUT) uint32 {
 // SetFocus sets the keyboard focus to the specified window. The window must be attached to the
 // calling thread's message queue.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646312(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646312
 func SetFocus(hwnd HWND) HWND {
 	ret, _, _ := procSetFocus.Call(
 		uintptr(hwnd))
@@ -1421,7 +1421,7 @@ func SetFocus(hwnd HWND) HWND {
 // characters. The function translates the code using the input language and physical keyboard
 // layout identified by the keyboard layout handle.
 //
-// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646316(v=vs.85).aspx
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms646316
 func ToAscii(uVirtKey, uScanCode uint, lpKeyState *byte, lpChar *uint16, uFlags uint) int {
 	ret, _, _ := procToAscii.Call(
 		uintptr(uVirtKey),
