@@ -279,7 +279,7 @@ func FindWindow(lpClassName string, lpWindowName string) (HWND, error) {
 		strHelper,
 		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(lpWindowName))))
 	if ret == 0 {
-		return HWND(nil), errors.New("Unable to Find Window")
+		return HWND(ret), errors.New("Unable to Find Window")
 	}
 	return HWND(ret), nil
 }
